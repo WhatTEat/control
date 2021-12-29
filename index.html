@@ -1,0 +1,46 @@
+<div id="magicalDragScene" class="mc-root mc-ui-absolute-pane" style="background-color: rgb(255, 255, 255); position: absolute; width: 223%; height: 97%;">
+	<el-container style="width: 85.6121%; height: 100%;">
+		<el-header height="117px">
+			<iframe style="width: 100%; height: 100px;" src="http://www.magicalcoder.com" frameborder="0"></iframe>
+		</el-header>
+		<el-container>
+			<el-aside width="300px">
+				<el-menu mode="vertical">
+					<el-submenu index="1">
+						<span class="magical-drag-tmp-submenu-name" slot="title">子菜单1</span>
+						<el-menu-item index="1-1">菜单条目1-1</el-menu-item>
+						<el-submenu index="1-2">
+							<span class="magical-drag-tmp-submenu-name" slot="title">子菜单1-2</span>
+							<el-menu-item index="1-2-1">菜单条目1-2-1</el-menu-item>
+						</el-submenu>
+					</el-submenu>
+					<el-submenu index="2">
+						<span class="magical-drag-tmp-submenu-name" slot="title">子菜单2</span>
+						<el-menu-item index="2-1">菜单条目2-1</el-menu-item>
+					</el-submenu>
+					<el-menu-item index="3">菜单条目3</el-menu-item>
+				</el-menu>
+			</el-aside>
+			<el-container>
+				<el-main>
+					<el-row style="height: 100%;">
+						<el-col style="height: 10%;" :xs="24"></el-col>
+						<el-col style="height: 90%;" :xs="24">
+							<el-table style="height: 100%;" :data="tableList" :fit="true" :show-header="true">
+								<el-table-column prop="id" label="列1"></el-table-column>
+								<el-table-column prop="name" label="列2"></el-table-column>
+								<el-table-column label="操作" fixed="right" width="200px">
+									<template slot-scope="scope">
+										<el-button mc-type="column-el-button" size="mini" type="primary">编辑</el-button>
+										<el-button mc-type="column-el-button" size="mini" type="danger">删除</el-button>
+									</template>
+								</el-table-column>
+							</el-table>
+						</el-col>
+					</el-row>
+				</el-main>
+				<el-footer></el-footer>
+			</el-container>
+		</el-container>
+	</el-container>
+</div>
