@@ -95,6 +95,16 @@ export default {
     },
     handleDelete(index, customer) {
       console.log(customer.id);
+      let gg = {"id":customer.id}
+      this.axios({
+        method:"post",
+        url:"http://localhost:8080/examine",
+        data:gg
+      }).then(res=>{
+        console.log(res.data)
+      }).catch(res=>{
+        console.log(res.data)
+      })
     },
     SizeChange(size){
       this.pagesize = size;
