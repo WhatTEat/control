@@ -33,9 +33,16 @@ export default new Router({
           path:'/userManagement',
           name:'userManagement',
           component:userManagement
+        },
+        {
+          path: '/home',
+          redirect: '/homepage'  // 所有路径都重定向到`/login`
         }
       ]
-    },
+    },{
+      path: '*',
+      redirect: '/login'  // 所有路径都重定向到`/login`
+    }
   ]
 
   })

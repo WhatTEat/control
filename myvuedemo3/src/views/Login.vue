@@ -9,8 +9,6 @@
         <el-input type="password" placeholder="请输入密码" v-model="form.password" ></el-input>
       </el-form-item>
       <el-button type="primary" class="login-butten"  @click="onSubmit('form')">登陆</el-button>
-      <el-button type="primary"  @click="onSubmit">注册</el-button>
-
     </el-form>
   </div>
 </template>
@@ -23,7 +21,7 @@ export default {
     return {
       form: {
         username: '',
-        password: "",
+        password: '',
       },
       rules: {
         username: [
@@ -47,15 +45,12 @@ export default {
             url:"https://www.fastmock.site/mock/d38db8bd5bd7319ab5c1bd6d7c50eda8/login/login"
           }).then(res=>{
             console.log(res.data)
-            if (res.data==='success'){
               this.$message({
                 message: '登陆成功',
                 type: 'success'
               });
               this.$router.push('/home')
-            }else {
-              this.$message.error('用户名或密码错误');
-            }
+
 
           }).catch(res=>console.log(res))
 
@@ -75,8 +70,8 @@ export default {
   width: 500px;
   height: 350px;
   border: 1px solid #E4E7ED;
-  margin-left: 550px;
-  margin-top: 220px;
+  margin-left: 35%;
+  margin-top: 15%;
   padding: 50px;
   border-radius: 20px;
   box-shadow: 0px 0px 20px #E4E7ED;
