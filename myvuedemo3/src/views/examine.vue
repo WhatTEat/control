@@ -97,6 +97,7 @@ export default {
         url:"http://localhost:8080/submit/examine",
         data:gg
       }).then(res=>{
+        this.toUpdate()
         console.log(res.data)
       }).catch(res=>{
         console.log(res.data)
@@ -110,6 +111,7 @@ export default {
         data:gg
       }).then(res=>{
         console.log(res.data)
+        this.toUpdate()
       }).catch(res=>{
         console.log(res.data)
       })
