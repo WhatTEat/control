@@ -62,6 +62,9 @@
 </template>
 
 <script>
+/**
+ * 审核页面
+ */
 export default {
   name: "examine.vue",
   data() {

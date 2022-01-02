@@ -18,7 +18,7 @@
     </div>
     <el-table :data="tableData" style="width: 100%">
       <el-table-column
-        label="日期"
+        label="用户ID"
         prop="id"
         >
 
@@ -27,6 +27,11 @@
         label="姓名"
         prop="name"
         >
+      </el-table-column>
+      <el-table-column
+        label="创建时间"
+        prop="creatTime"
+      >
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
@@ -44,32 +49,73 @@
 </template>
 
 <script>
+/**
+ * 用户管理页面
+ */
 export default {
   name: "userManagement",
   data() {
     return {
       formInline: {
-        user: '',
-        condition: ''
+        user: '',             //查询框内
+        condition: ''         //选择框
       }, tableData: [{
-        id: '12366788',
-        name: '王小虎',
+        id: '',
+        name: '',
+        creatTime:''
       },]
     }
   },
   methods: {
+    //条件查询
     query() {
       console.log(this.formInline.user+this.formInline.condition);
     },
-    handleEdit(index, row) {
-      console.log(index, row);
+    //更改用户信息
+    handleEdit(index, user) {
+      console.log(index, user.id);
     },
-    handleDelete(index, row) {
-      console.log(index, row);
+    //用户删除
+    handleDelete(index, user) {
+      this.axios({
+        method: "post",
+        data: {
+          "id": user.id,
+        },
+        url: 'http://localhost:8080/delete/userm'
+      }).then(res => {
+        if (res.data.status === 'OK') {
+          this.getMsg();
+        }
+      }).catch(res => {
+        console.log("错误")
+      })
+    },
+    //获取用户信息
+    getMsg() {
+      this.axios({
+        method: "get",
+        url: 'http://localhost:8080/userdata'
+      }).then(res => {
+        this.tableData = res.data
+      }).catch(res => {
+        console.log("错误")
+      })
     }
   }
-
-
+  ,
+  //获取用户信息
+  created()
+  {
+    this.axios({
+      method: "get",
+      url: 'http://localhost:8080/userdata'
+    }).then(res => {
+      this.tableData = res.data
+    }).catch(res => {
+      console.log("错误")
+    })
+  }
 }
 </script>
 
