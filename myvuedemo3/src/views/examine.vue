@@ -91,14 +91,22 @@ export default {
   }
 , methods: {
     handleEdit(index, customer) {
-      console.log(customer.id);
-    },
-    handleDelete(index, customer) {
-      console.log(customer.id);
       let gg = {"id":customer.id}
       this.axios({
         method:"post",
-        url:"http://localhost:8080/examine",
+        url:"http://localhost:8080/submit/examine",
+        data:gg
+      }).then(res=>{
+        console.log(res.data)
+      }).catch(res=>{
+        console.log(res.data)
+      })
+    },
+    handleDelete(index, customer) {
+      let gg = {"id":customer.id}
+      this.axios({
+        method:"post",
+        url:"http://localhost:8080/delete/examine",
         data:gg
       }).then(res=>{
         console.log(res.data)
@@ -109,17 +117,32 @@ export default {
     SizeChange(size){
       this.pagesize = size;
       console.log(size)
+      this.toUpdate()
     },
     CurrentChange(current){
       this.currentPage = current;
-      console.log(current)
+      this.toUpdate()
+    },
+    toUpdate(){
+      let page = {"pagesize":this.pagesize,"currentPage":this.currentPage}
+      this.axios({
+        method: "post",
+        url: 'http://localhost:8080/data',
+        data:page
+      }).then(res => {
+        this.tableData = res.data
+      }).catch(res => {
+        console.log("错误")
+      })
     }
 
   },
   created() {
+    let page = {"pagesize":this.pagesize,"currentPage":this.currentPage}
     this.axios({
-      method: "get",
-      url: 'https://www.fastmock.site/mock/d38db8bd5bd7319ab5c1bd6d7c50eda8/login/login'
+      method: "post",
+      url: 'http://localhost:8080/data',
+      data:page
     }).then(res => {
       this.tableData = res.data
     }).catch(res => {
