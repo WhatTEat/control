@@ -30,7 +30,7 @@
         <template slot-scope="scope">
           <el-button
             size="mini"
-            @click="handleEdit(scope.$index, scope.row)">编辑
+            @click="handleEdit(scope.$index, scope.row)">通过
           </el-button>
           <el-button
             size="mini"
@@ -66,7 +66,7 @@ export default {
   name: "examine.vue",
   data() {
     return {
-      name:[],
+      name: [],
       tableData: [{
         id: "",
         name: "",
@@ -82,75 +82,111 @@ export default {
           }
         ]
       }],
-      total:500,
-      currentPage:1,
-      pagesize:5,
+      total: 500,
+      currentPage: 1,
+      pagesize: 5,
       fits: 'fill',
 
     }
   }
-, methods: {
+  , methods: {
+    //通过
     handleEdit(index, customer) {
-      let gg = {"id":customer.id}
-      this.axios({
-        method:"post",
-        url:"http://localhost:8080/submit/examine",
-        data:gg
-      }).then(res=>{
-        this.toUpdate()
-        console.log(res.data)
-      }).catch(res=>{
-        console.log(res.data)
-      })
-    },
-    handleDelete(index, customer) {
-      let gg = {"id":customer.id}
-      this.axios({
-        method:"post",
-        url:"http://localhost:8080/delete/examine",
-        data:gg
-      }).then(res=>{
-        console.log(res.data)
-        this.toUpdate()
-      }).catch(res=>{
-        console.log(res.data)
-      })
-    },
-    SizeChange(size){
-      this.pagesize = size;
-      console.log(size)
-      this.toUpdate()
-    },
-    CurrentChange(current){
-      this.currentPage = current;
-      this.toUpdate()
-    },
-    toUpdate(){
-      let page = {"pagesize":this.pagesize,"currentPage":this.currentPage}
       this.axios({
         method: "post",
-        url: 'http://localhost:8080/data',
-        data:page
+        data: {
+          "id": customer.id,
+        },
+        url: 'http://localhost:8080/submit/examine'
       }).then(res => {
-        this.tableData = res.data
+        if (res.data.status === 'OK') {
+          this.getMsg();
+        }
       }).catch(res => {
         console.log("错误")
       })
-    }
-
+    },
+    //删除
+    handleDelete(index, customer) {
+      this.axios({
+        method: "post",
+        data: {
+          "id": customer.id,
+        },
+        url: 'http://localhost:8080/delete/examine'
+      }).then(res => {
+        if (res.data.status === 'OK') {
+          this.getMsg();
+        }
+      }).catch(res => {
+        console.log("错误")
+      })
   },
-  created() {
-    let page = {"pagesize":this.pagesize,"currentPage":this.currentPage}
+    //分页大小
+  SizeChange(size) {
+    this.pagesize = size;
     this.axios({
       method: "post",
-      url: 'http://localhost:8080/data',
-      data:page
+      data: {
+        "currentPage": this.currentPage,
+        "pagesize": size,
+      },
+      url: 'http://localhost:8080/data'
     }).then(res => {
       this.tableData = res.data
     }).catch(res => {
       console.log("错误")
     })
   },
+    //当前页面
+  CurrentChange(current) {
+    this.currentPage = current;
+    this.axios({
+      method: "post",
+      data: {
+        "currentPage": current,
+        "pagesize": this.pagesize,
+      },
+      url: 'http://localhost:8080/data'
+    }).then(res => {
+      this.tableData = res.data
+    }).catch(res => {
+      console.log("错误")
+    })
+  },
+    //获取页面信息
+  getMsg() {
+    this.axios({
+      method: "post",
+      data: {
+        "currentPage": this.currentPage,
+        "pagesize": this.pagesize,
+      },
+      url: 'http://localhost:8080/data'
+    }).then(res => {
+      this.tableData = res.data
+    }).catch(res => {
+      console.log("错误")
+    })
+  },
+}
+,
+created()
+{
+  this.axios({
+    method: "post",
+    data: {
+      "currentPage": this.currentPage,
+      "pagesize": this.pagesize,
+    },
+    url: 'http://localhost:8080/data'
+  }).then(res => {
+    this.tableData = res.data
+  }).catch(res => {
+    console.log("错误")
+  })
+}
+,
 
 
 }
