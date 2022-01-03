@@ -1,15 +1,15 @@
 <template>
   <div>
     <div class="userManagement">
-      <el-form :inline="true" :model="formInline" class="demo-form-inline" >
-        <el-form-item  label-width="10px">
-          <el-select  v-model="formInline.condition" placeholder="请选择查询条件">
+      <el-form :inline="true" :model="formInline" class="demo-form-inline">
+        <el-form-item label-width="10px">
+          <el-select v-model="formInline.condition" placeholder="请选择查询条件">
             <el-option label="用户ID" value="用户ID"></el-option>
             <el-option label="用户名" value="用户名"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item >
-          <el-input v-model="formInline.user" ></el-input>
+        <el-form-item>
+          <el-input v-model="formInline.user"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="query">查询</el-button>
@@ -20,13 +20,13 @@
       <el-table-column
         label="用户ID"
         prop="id"
-        >
+      >
 
       </el-table-column>
       <el-table-column
         label="姓名"
         prop="name"
-        >
+      >
       </el-table-column>
       <el-table-column
         label="创建时间"
@@ -37,30 +37,35 @@
         <template slot-scope="scope">
           <el-button
             size="mini"
-            @click="handleEdit(scope.$index, scope.row)" >编辑</el-button>
+            @click="handleEdit(scope.$index, scope.row)">编辑
+          </el-button>
           <el-button
             size="mini"
             type="danger"
-            @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            @click="handleDelete(scope.$index, scope.row)">删除
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
     <el-dialog title="编辑资料" :visible.sync="dialogFormVisible">
       <el-form :model="form">
-        <el-form-item label="编辑资料" :label-width="formLabelWidth">
+        <el-form-item label="用户名" :label-width="formLabelWidth">
           <el-input v-model="form.name" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="编辑资料" :label-width="formLabelWidth">
-          <el-input v-model="form.date1" autocomplete="off"></el-input>
+        <el-form-item label="账号" :label-width="formLabelWidth">
+          <el-input v-model="form.account" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="编辑资料" :label-width="formLabelWidth">
-          <el-input v-model="form.date2" autocomplete="off"></el-input>
+        <el-form-item label="密码" :label-width="formLabelWidth">
+          <el-input v-model="form.userPassword" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="编辑资料" :label-width="formLabelWidth">
-          <el-input v-model="form.date3" autocomplete="off"></el-input>
+        <el-form-item label="手机号" :label-width="formLabelWidth">
+          <el-input v-model="form.phoneNumber" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="编辑资料" :label-width="formLabelWidth">
-          <el-input v-model="form.name" autocomplete="off"></el-input>
+        <el-form-item label="头像" :label-width="formLabelWidth">
+          <el-input v-model="form.avatar" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="信誉分" :label-width="formLabelWidth">
+          <el-input v-model="form.credit" autocomplete="off"></el-input>
         </el-form-item>
 
       </el-form>
@@ -86,14 +91,16 @@ export default {
       }, tableData: [{
         id: '',
         name: '',
-        creatTime:''
-      },],dialogFormVisible: false,
+        creatTime: ''
+      },], dialogFormVisible: false,
       form: {
-        id:"",
+        id: '',
         name: '',
-        date1: '',
-        date2: '',
-        date3:"",
+        account: '',
+        userPassword: '',
+        phoneNumber: "",
+        avatar: "",
+        credit: "",
 
 
       },
@@ -106,7 +113,7 @@ export default {
       //this.formInline.user 查询内容
       //this.formInline.condition 查询选择
       //查询选项为用户名或者用户ID的情况
-      if(this.formInline.condition==='用户名'||this.formInline.condition==='用户ID'){
+      if (this.formInline.condition === '用户名' || this.formInline.condition === '用户ID') {
         this.axios({
           method: "post",
           data: {
@@ -128,7 +135,18 @@ export default {
     handleEdit(index, user) {
       this.dialogFormVisible = true;
       this.form.id = user.id
-      console.log(index, user.id);
+      //接收服务器信息
+      this.axios({
+        method: "post",
+        data: {
+          "id": this.form.id
+        },
+        url: 'http://localhost:8080/oneUserdata'
+      }).then(res => {
+        this.form = res.data
+      }).catch(res => {
+        console.log("错误")
+      })
     },
     //用户删除
     handleDelete(index, user) {
@@ -157,17 +175,40 @@ export default {
         console.log("错误")
       })
     },
-    mes1(){
-      this.dialogFormVisible=false;
+    //取消
+    mes1() {
+      this.dialogFormVisible = false;
     },
-    mes2(){
-      this.dialogFormVisible=false;
+    //确认
+    mes2() {
+      this.dialogFormVisible = false;
+      this.axios({
+        method: "post",
+        data: {
+          'id': this.form.id,
+          'name': this.form.name,
+          'account': this.form.account,
+          'userPassword': this.form.userPassword,
+          'phoneNumber': this.form.phoneNumber,
+          'avatar': this.form.avatar,
+          'credit': this.form.credit,
+        },
+        url: 'http://localhost:8080/userEdit'
+      }).then(res => {
+        if (res.data.status==='OK'){
+          this.getMsg();
+          console.log(res.data.status);
+        }else {
+          console.log(res.data.status);
+        }
+      }).catch(res => {
+        console.log("错误")
+      })
     }
   }
   ,
   //获取用户信息
-  created()
-  {
+  created() {
     this.axios({
       method: "get",
       url: 'http://localhost:8080/userdata'
@@ -181,7 +222,7 @@ export default {
 </script>
 
 <style scoped>
-.userManagement{
+.userManagement {
   text-align: center;
 }
 
