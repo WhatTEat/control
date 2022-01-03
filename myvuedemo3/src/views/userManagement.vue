@@ -69,7 +69,26 @@ export default {
   methods: {
     //条件查询
     query() {
-      console.log(this.formInline.user+this.formInline.condition);
+      //this.formInline.user 查询内容
+      //this.formInline.condition 查询选择
+      //查询选项为用户名或者用户ID的情况
+      if(this.formInline.condition==='用户名'||this.formInline.condition==='用户ID'){
+        this.axios({
+          method: "post",
+          data: {
+            "condition": this.formInline.condition,
+            "selectInfo": this.formInline.user,
+          },
+          url: 'http://localhost:8080/user/select'
+        }).then(res => {
+          this.tableData = res.data
+        }).catch(res => {
+          console.log("错误")
+        })
+      }//未选择查询选项的情况
+      else {
+        this.getMsg();
+      }
     },
     //更改用户信息
     handleEdit(index, user) {
