@@ -45,6 +45,30 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-dialog title="编辑资料" :visible.sync="dialogFormVisible">
+      <el-form :model="form">
+        <el-form-item label="编辑资料" :label-width="formLabelWidth">
+          <el-input v-model="form.name" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="编辑资料" :label-width="formLabelWidth">
+          <el-input v-model="form.date1" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="编辑资料" :label-width="formLabelWidth">
+          <el-input v-model="form.date2" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="编辑资料" :label-width="formLabelWidth">
+          <el-input v-model="form.date3" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="编辑资料" :label-width="formLabelWidth">
+          <el-input v-model="form.name" autocomplete="off"></el-input>
+        </el-form-item>
+
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="mes1">取 消</el-button>
+        <el-button type="primary" @click="mes2">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -63,7 +87,17 @@ export default {
         id: '',
         name: '',
         creatTime:''
-      },]
+      },],dialogFormVisible: false,
+      form: {
+        id:"",
+        name: '',
+        date1: '',
+        date2: '',
+        date3:"",
+
+
+      },
+      formLabelWidth: '120px'
     }
   },
   methods: {
@@ -92,6 +126,8 @@ export default {
     },
     //更改用户信息
     handleEdit(index, user) {
+      this.dialogFormVisible = true;
+      this.form.id = user.id
       console.log(index, user.id);
     },
     //用户删除
@@ -120,6 +156,12 @@ export default {
       }).catch(res => {
         console.log("错误")
       })
+    },
+    mes1(){
+      this.dialogFormVisible=false;
+    },
+    mes2(){
+      this.dialogFormVisible=false;
     }
   }
   ,
