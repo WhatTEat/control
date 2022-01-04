@@ -40,6 +40,7 @@ export default {
     }
   },
   methods:{
+    //修改密码http://localhost:8080/modify
     open() {
       this.$prompt('请输入修改后的密码', '', {
         confirmButtonText: '确定',
@@ -73,6 +74,7 @@ export default {
         });
       });
     },
+    //退出http://localhost:8080/logout
     Logout(){
       this.axios({
         method:'get',
@@ -85,6 +87,7 @@ export default {
       })
     }
   },
+  //验证是否为登陆状态http://localhost:8080/me
   created() {
     this.axios({
       method:"get",
