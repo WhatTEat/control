@@ -25,40 +25,34 @@ export default {
       },
       rules: {
         username: [
-          { required: true, message: '请输入账号', trigger: 'blur' },
-          { min: 3, max: 12, message: '长度在 3 到 12 个字符', trigger: 'blur' }
+          {required: true, message: '请输入账号', trigger: 'blur'},
+          {min: 3, max: 12, message: '长度在 3 到 12 个字符', trigger: 'blur'}
         ],
         password: [
-          { required: true, message: '请输入密码', trigger: 'blur' },
-          { min: 3, max: 12, message: '长度在 3 到 12 个字符', trigger: 'blur' }
+          {required: true, message: '请输入密码', trigger: 'blur'},
+          {min: 3, max: 12, message: '长度在 3 到 12 个字符', trigger: 'blur'}
         ],
+      }
     }
-  }
   },
   methods: {
-    onSubmit(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          this.axios({
-            method:'get',
-            //url:'http://localhost:8080/api/login'
-            url:"https://www.fastmock.site/mock/d38db8bd5bd7319ab5c1bd6d7c50eda8/login/login"
-          }).then(res=>{
-            console.log(res.data)
-              this.$message({
-                message: '登陆成功',
-                type: 'success'
-              });
-              this.$router.push('/home')
-
-
-          }).catch(res=>console.log(res))
-
+    onSubmit() {
+      this.axios({
+        method: 'post',
+        url: 'http://localhost:8080/adminLogin',
+        data: {
+          'username': this.form.username,
+          'password': this.form.password,
+        },
+        // url:"https://www.fastmock.site/mock/d38db8bd5bd7319ab5c1bd6d7c50eda8/login/login"
+      }).then(res => {
+        if (res.data.status === 'OK') {
+          this.$router.push('/home')
         } else {
-          this.$message.error('用户名或密码错误');
-          return false;
+          console.log(res.data.status);
         }
-      });
+      }).catch(res => console.log(res))
+
     }
   }
 }

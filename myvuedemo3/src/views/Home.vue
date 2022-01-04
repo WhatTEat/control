@@ -88,18 +88,6 @@ export default {
     }
   },
   //验证是否为登陆状态http://localhost:8080/me
-  created() {
-    this.axios({
-      method:"get",
-      url:"http://localhost:8080/me"
-    }).then(res=>{
-      if (res.data.message!=="success"){
-        this.$router.push("/login")
-      }
-    }).catch(res=>{
-      console.log(res)
-    })
-  }
 
 }
 </script>

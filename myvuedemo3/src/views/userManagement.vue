@@ -21,10 +21,10 @@
         label="用户ID"
       >
         <template slot-scope="scope">
-        <div>
-          <el-avatar :src="scope.row.avatar"></el-avatar>
-          <span>{{scope.row.id}}</span>
-        </div>
+          <div>
+            <el-avatar :src="scope.row.avatar"></el-avatar>
+            <span>{{ scope.row.id }}</span>
+          </div>
         </template>
       </el-table-column>
 
@@ -202,10 +202,10 @@ export default {
         },
         url: 'http://localhost:8080/userEdit'
       }).then(res => {
-        if (res.data.status==='OK'){
+        if (res.data.status === 'OK') {
           this.getMsg();
           console.log(res.data.status);
-        }else {
+        } else {
           console.log(res.data.status);
         }
       }).catch(res => {
@@ -216,6 +216,18 @@ export default {
   ,
   //获取用户信息
   created() {
+    this.axios({
+      method: "get",
+      url: "http://localhost:8080/me"
+    }).then(res => {
+      if (res.data.status !== "OK") {
+        console.log(11111111111);
+        this.$router.push("/login")
+      }
+    }).catch(res => {
+      this.$router.push("/login")
+      console.log(res)
+    })
     this.axios({
       method: "get",
       url: 'http://localhost:8080/userdata'
