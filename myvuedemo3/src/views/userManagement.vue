@@ -19,10 +19,15 @@
     <el-table :data="tableData" style="width: 100%">
       <el-table-column
         label="用户ID"
-        prop="id"
       >
-
+        <template slot-scope="scope">
+        <div>
+          <el-avatar :src="scope.row.avatar"></el-avatar>
+          <span>{{scope.row.id}}</span>
+        </div>
+        </template>
       </el-table-column>
+
       <el-table-column
         label="姓名"
         prop="name"
@@ -89,10 +94,12 @@ export default {
         user: '',             //查询框内
         condition: ''         //选择框
       }, tableData: [{
-        id: '',
+        id: '456',
         name: '',
+        avatar: "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
         creatTime: ''
-      },], dialogFormVisible: false,
+      }],
+      dialogFormVisible: false,
       form: {
         id: '',
         name: '',
