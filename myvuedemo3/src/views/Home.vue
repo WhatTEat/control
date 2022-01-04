@@ -11,6 +11,8 @@
               <el-menu-item index="1-2"><router-link to="/userManagement">用户管理</router-link></el-menu-item>
               <el-menu-item index="1-3"> <el-button type="text" @click="open">管理员密码修改</el-button>
                 </el-menu-item>
+              <el-menu-item index="1-5"> <el-button type="text" @click="Logout">退出</el-button>
+              </el-menu-item>
             </el-menu-item-group>
           </el-submenu>
         </el-menu>
@@ -39,24 +41,62 @@ export default {
   },
   methods:{
     open() {
-      this.$prompt('请输入修改后的密码', '提示', {
+      this.$prompt('请输入修改后的密码', '', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
 
-        inputErrorMessage: '邮箱格式不正确'
+        inputErrorMessage: '密码格式不正确'
       }).then(({ value }) => {
-        this.$message({
-          type: 'success',
-          message: '你的邮箱是: ' + value
-        });
+        let password = {"value":value}
+        this.axios({
+          method:"post",
+          url:"http://localhost:8080/modify",
+          data:password
+        }).then(res=>{
+          if (res.data.message === "success"){
+          this.$message({
+            type: 'success',
+            message: '成功修改管理员密码'
+          });}else {
+            this.$message({
+              type: 'success',
+              message: '管理员密码修改失败'
+            });
+          }
+        }).catch(res=>{
+          console.log(res)
+        })
       }).catch(() => {
         this.$message({
           type: 'info',
           message: '取消输入'
         });
       });
+    },
+    Logout(){
+      this.axios({
+        method:'get',
+        url:"http://localhost:8080/logout"
+      }).then(res=>{
+        console.log(res.data)
+        this.$router.push('/login')
+      }).catch(res=>{
+        console.log(res.data)
+      })
     }
   },
+  created() {
+    this.axios({
+      method:"get",
+      url:"http://localhost:8080/me"
+    }).then(res=>{
+      if (res.data.message!=="success"){
+        this.$router.push("/login")
+      }
+    }).catch(res=>{
+      console.log(res)
+    })
+  }
 
 }
 </script>
