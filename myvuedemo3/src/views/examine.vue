@@ -100,7 +100,7 @@ export default {
         data: {
           "id": customer.id,
         },
-        url: 'http://localhost:8080/submit/examine'
+        url: '/submit/examine'
       }).then(res => {
         if (res.data.status === 'OK') {
           this.getMsg();
@@ -116,7 +116,7 @@ export default {
         data: {
           "id": customer.id,
         },
-        url: 'http://localhost:8080/delete/examine'
+        url: '/delete/examine'
       }).then(res => {
         if (res.data.status === 'OK') {
           this.getMsg();
@@ -134,7 +134,7 @@ export default {
         "currentPage": this.currentPage,
         "pagesize": size,
       },
-      url: 'http://localhost:8080/data'
+      url: '/data'
     }).then(res => {
       this.tableData = res.data
     }).catch(res => {
@@ -150,7 +150,7 @@ export default {
         "currentPage": current,
         "pagesize": this.pagesize,
       },
-      url: 'http://localhost:8080/data'
+      url: '/data'
     }).then(res => {
       this.tableData = res.data
     }).catch(res => {
@@ -165,7 +165,7 @@ export default {
         "currentPage": this.currentPage,
         "pagesize": this.pagesize,
       },
-      url: 'http://localhost:8080/data'
+      url: '/data'
     }).then(res => {
       this.tableData = res.data
     }).catch(res => {
@@ -182,7 +182,7 @@ created()
       "currentPage": this.currentPage,
       "pagesize": this.pagesize,
     },
-    url: 'http://localhost:8080/data'
+    url: '/data'
   }).then(res => {
     this.tableData = res.data
   }).catch(res => {

@@ -39,7 +39,7 @@ export default {
     onSubmit() {
       this.axios({
         method: 'post',
-        url: 'http://localhost:8080/adminLogin',
+        url: '/adminLogin',
         data: {
           'username': this.form.username,
           'password': this.form.password,

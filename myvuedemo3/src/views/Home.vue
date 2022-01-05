@@ -48,13 +48,13 @@ export default {
 
         inputErrorMessage: '密码格式不正确'
       }).then(({ value }) => {
-        let password = {"value":value}
+        let password = {"password":value}
         this.axios({
           method:"post",
-          url:"http://localhost:8080/modify",
+          url:"/adminPasswordChange",
           data:password
         }).then(res=>{
-          if (res.data.message === "success"){
+          if (res.data.message === "OK"){
           this.$message({
             type: 'success',
             message: '成功修改管理员密码'
@@ -78,17 +78,33 @@ export default {
     Logout(){
       this.axios({
         method:'get',
-        url:"http://localhost:8080/logout"
+        url:"/adminLogout"
       }).then(res=>{
-        console.log(res.data)
-        this.$router.push('/login')
+        if (res.data.status==='OK'){
+          this.$router.push('/login')
+        }else {
+          console.log("出现未知错误")
+        }
       }).catch(res=>{
         console.log(res.data)
       })
     }
   },
   //验证是否为登陆状态http://localhost:8080/me
+  created() {
+    this.axios({
+      method: "get",
+      url: "/me"
+    }).then(res => {
+      if (res.data.status !== "OK") {
+        this.$router.push("/login")
+      }
+    }).catch(res => {
+      this.$router.push("/login")
+      console.log(res)
+    })
 
+  }
 }
 </script>
 

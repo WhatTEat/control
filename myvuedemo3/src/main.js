@@ -10,6 +10,7 @@ import VueAxios from "vue-axios";
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 axios.defaults.withCredentials = true
+axios.defaults.baseURL="http://localhost:8080"
 Vue.use(VueAxios,axios)
 
 //使用element-ui组件

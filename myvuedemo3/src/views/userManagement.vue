@@ -127,7 +127,7 @@ export default {
             "condition": this.formInline.condition,
             "selectInfo": this.formInline.user,
           },
-          url: 'http://localhost:8080/user/select'
+          url: '/user/select'
         }).then(res => {
           this.tableData = res.data
         }).catch(res => {
@@ -148,7 +148,7 @@ export default {
         data: {
           "id": this.form.id
         },
-        url: 'http://localhost:8080/oneUserdata'
+        url: '/oneUserdata'
       }).then(res => {
         this.form = res.data
       }).catch(res => {
@@ -162,7 +162,7 @@ export default {
         data: {
           "id": user.id,
         },
-        url: 'http://localhost:8080/delete/userm'
+        url: '/delete/userm'
       }).then(res => {
         if (res.data.status === 'OK') {
           this.getMsg();
@@ -175,7 +175,7 @@ export default {
     getMsg() {
       this.axios({
         method: "get",
-        url: 'http://localhost:8080/userdata'
+        url: '/userdata'
       }).then(res => {
         this.tableData = res.data
       }).catch(res => {
@@ -200,7 +200,7 @@ export default {
           'avatar': this.form.avatar,
           'credit': this.form.credit,
         },
-        url: 'http://localhost:8080/userEdit'
+        url: '/userEdit'
       }).then(res => {
         if (res.data.status === 'OK') {
           this.getMsg();
@@ -218,19 +218,7 @@ export default {
   created() {
     this.axios({
       method: "get",
-      url: "http://localhost:8080/me"
-    }).then(res => {
-      if (res.data.status !== "OK") {
-        console.log(11111111111);
-        this.$router.push("/login")
-      }
-    }).catch(res => {
-      this.$router.push("/login")
-      console.log(res)
-    })
-    this.axios({
-      method: "get",
-      url: 'http://localhost:8080/userdata'
+      url: '/userdata'
     }).then(res => {
       this.tableData = res.data
     }).catch(res => {
