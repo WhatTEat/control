@@ -85,7 +85,7 @@ export default {
           }
         ]
       }],
-      total: 500,
+      total: 0,
       currentPage: 1,
       pagesize: 5,
       fits: 'fill',
@@ -171,6 +171,15 @@ export default {
     }).catch(res => {
       console.log("错误")
     })
+
+    this.axios({
+      method: "get",
+      url: '/total'
+    }).then(res => {
+      this.total = parseInt(res.data.total,10);
+    }).catch(res => {
+      console.log("错误")
+    })
   },
 }
 ,
@@ -185,6 +194,17 @@ created()
     url: '/data'
   }).then(res => {
     this.tableData = res.data
+  }).catch(res => {
+    console.log("错误")
+  })
+
+
+  this.axios({
+    method: "get",
+    url: '/total'
+  }).then(res => {
+    this.total = parseInt(res.data.total,10);
+    console.log(this.total);
   }).catch(res => {
     console.log("错误")
   })
