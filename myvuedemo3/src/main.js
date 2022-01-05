@@ -9,7 +9,7 @@ import VueAxios from "vue-axios";
 //导入element-ui组件
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
-
+axios.defaults.withCredentials = true
 Vue.use(VueAxios,axios)
 
 //使用element-ui组件
